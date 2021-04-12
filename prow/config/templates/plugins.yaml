@@ -6,7 +6,7 @@ metadata:
 data:
   plugins.yaml: |
     plugins:
-      aws-controllers-k8s:
+      {{ .Values.github.organisation }}:
       - approve
       - assign
       - blunderbuss

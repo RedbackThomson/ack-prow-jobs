@@ -13,7 +13,7 @@ spec:
     serviceName: deck
     servicePort: 80
   rules:
-  - host: prow.<< your-domain.com >>
+  - host: prow.{{ .Values.domain }}
     http:
       paths:
       - path: /
@@ -26,5 +26,5 @@ spec:
           servicePort: 8888
   tls:
   - hosts:
-    - prow.<< your-domain.com >>
+    - prow.{{ .Values.domain }}
     secretName: prow-ingress-tls
