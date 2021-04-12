@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prow-config
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/RedbackThomson/ack-prow-jobs.git
+    targetRevision: HEAD
+    path: prow/config
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prow

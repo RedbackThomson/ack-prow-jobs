@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prow
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kubernetes/test-infra.git
+    targetRevision: HEAD
+    path: config/prow/cluster
+    directory:
+      include: 'starter-s3.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prow
