@@ -9,6 +9,16 @@ spec:
     repoURL: https://github.com/RedbackThomson/ack-prow-jobs.git
     targetRevision: HEAD
     path: prow/config
+    helm:
+      parameters:
+      - name: "domain"
+        value: "prow.ack.aws.dev"
   destination:
     server: https://kubernetes.default.svc
     namespace: prow
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
