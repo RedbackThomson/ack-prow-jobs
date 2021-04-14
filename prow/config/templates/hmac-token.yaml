@@ -5,4 +5,4 @@ metadata:
   name: hmac-token
 stringData:
   # Generate via `openssl rand -hex 20`. This is the secret used in the GitHub webhook configuration
-  hmac: {{ .Values.secrets.hmacToken }}:
+  hmac: {{ .Values.secrets.hmacToken }}

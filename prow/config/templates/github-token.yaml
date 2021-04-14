@@ -4,4 +4,4 @@ metadata:
   namespace: prow
   name: github-token
 stringData:
-  token: {{ .Values.secrets.githubToken }}:
+  token: {{ .Values.secrets.githubToken }}
