@@ -12,3 +12,7 @@ secrets:
 
 buckets:
   logs: ""
+
+deck:
+  service:
+    type: ClusterIP
