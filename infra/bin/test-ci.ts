@@ -18,4 +18,8 @@ new TestCIStack(app, 'TestCIStack', {
   // env: { account: '123456789012', region: 'us-east-1' },
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+  clusterConfig: {
+    botPersonalAccessToken: app.node.tryGetContext('bot_pat') || process.env.BOT_PAT,
+    webhookHMACToken: app.node.tryGetContext('webhook_hmac') || process.env.WEBHOOK_HMAC
+  }
 });

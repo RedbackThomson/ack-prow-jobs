@@ -5,7 +5,12 @@ import * as TestCI from '../lib/test-ci-stack';
 test('Empty Stack', () => {
     const app = new cdk.App();
     // WHEN
-    const stack = new TestCI.TestCIStack(app, 'MyTestStack');
+    const stack = new TestCI.TestCIStack(app, 'MyTestStack', {
+      clusterConfig: {
+        botPersonalAccessToken: "abc123",
+        webhookHMACToken: "def456"
+      }
+    });
     // THEN
     expectCDK(stack).to(matchTemplate({
       "Resources": {}

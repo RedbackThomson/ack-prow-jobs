@@ -3,5 +3,12 @@ github:
   organisation: aws-controllers-k8s
 
 secrets:
-  githubToken: ""
-  hmacToken: ""
+  githubToken:
+    namespace: ""
+    name: ""
+  hmacToken:
+    namespace: ""
+    name: ""
+
+buckets:
+  logs: ""

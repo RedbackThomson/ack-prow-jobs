@@ -13,6 +13,14 @@ spec:
       parameters:
       - name: "domain"
         value: "ack.aws.dev"
+      - name: "secrets.githubToken.namespace"
+        value: "prow-secrets"
+      - name: "secrets.githubToken.name"
+        value: "bot-pat"
+      - name: "secrets.hmacToken.namespace"
+        value: "prow-secrets"
+      - name: "secrets.hmacToken.name"
+        value: "webhook-hmac"
   destination:
     server: https://kubernetes.default.svc
     namespace: prow

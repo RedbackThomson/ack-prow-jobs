@@ -8,30 +8,37 @@ data:
     prowjob_namespace: prow
     pod_namespace: test-pods
 
-    in_repo_config:
-      enabled:
-        "*": true
+    branch-protection:
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+      required_linear_history: true
 
     deck:
-     spyglass:
-       lenses:
-       - lens:
-           name: metadata
-         required_files:
-         - started.json|finished.json
-       - lens:
-           config:
-           name: buildlog
-         required_files:
-         - build-log.txt
-       - lens:
-           name: junit
-         required_files:
-         - .*/junit.*\.xml
-       - lens:
-           name: podinfo
-         required_files:
-         - podinfo.json
+      branding:
+        background_color: '#FFFFFF'
+        favicon: 'https://distro.eks.amazonaws.com/assets/images/favicon.ico'
+        header_color: '#232F3E'
+        logo: 'https://distro.eks.amazonaws.com/assets/images/amazon-eks-distro-white-logo.png'
+
+      spyglass:
+        lenses:
+        - lens:
+            name: metadata
+          required_files:
+          - started.json|finished.json
+        - lens:
+            config:
+            name: buildlog
+          required_files:
+          - build-log.txt
+        - lens:
+            name: junit
+          required_files:
+          - .*/junit.*\.xml
+        - lens:
+            name: podinfo
+          required_files:
+          - podinfo.json
 
     plank:
       job_url_prefix_config:
@@ -42,8 +49,9 @@ data:
             [Your PR dashboard](https://prow.{{ .Values.domain }}/pr?query=is:pr+state:open+author:{{ "{{"  }}with index .Spec.Refs.Pulls 0{{ "}}" }}{{ "{{"  }}.Author{{ "}}" }}{{ "{{"  }}end{{ "}}" }}).
       default_decoration_configs:
         "*":
+          censor_secrets: true
           gcs_configuration:
-            bucket: s3://prow-logs
+            bucket: s3://{{ .Values.buckets.logs }}
             path_strategy: explicit
           s3_credentials_secret: s3-credentials
           utility_images:
@@ -53,6 +61,8 @@ data:
             sidecar: gcr.io/k8s-prow/sidecar:v20210412-d5ae4d3960
 
     tide:
+      merge_method:
+        "*": "squash"
       queries:
       - labels:
         - lgtm
@@ -66,11 +76,3 @@ data:
         - aws-controllers-k8s
 
     decorate_all_jobs: true
-    periodics:
-    - interval: 1m
-      agent: kubernetes
-      name: echo-test
-      spec:
-        containers:
-        - image: alpine
-          command: ["/bin/date"]
