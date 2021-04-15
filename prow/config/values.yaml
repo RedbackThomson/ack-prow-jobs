@@ -2,14 +2,6 @@ domain: example.com
 github:
   organisation: aws-controllers-k8s
 
-secrets:
-  githubToken:
-    namespace: ""
-    name: ""
-  hmacToken:
-    namespace: ""
-    name: ""
-
 buckets:
   logs: ""
 
