@@ -5,7 +5,9 @@ import {ArgoCDConfigurationChart, ArgoCDConfigurationChartProps} from './charts/
 import {ProwSecretsChart, ProwSecretsChartProps} from './charts/prow-secrets';
 import { ARGOCD_NAMESPACE } from './test-ci-stack';
 
-export type CIClusterProps = ProwSecretsChartProps & ArgoCDConfigurationChartProps;
+export type CIClusterProps = ProwSecretsChartProps & ArgoCDConfigurationChartProps & {
+  readonly argoCDAdminPassword: string;
+};
 
 export class CICluster {
   constructor(scope: cdk.Construct, id: string, props: CIClusterProps) {
@@ -13,14 +15,27 @@ export class CICluster {
       version: eks.KubernetesVersion.V1_19,
     })
 
+    if (props.argoCDAdminPassword === undefined) {
+      throw new Error(`Expected ArgoCD Admin password to be specified in context`)
+    }
+
     const argoCDChart = 
       cluster.addHelmChart('argocd', {
         chart: 'argo-cd',
         repository: 'https://argoproj.github.io/argo-helm',
-        version: '2.11.0',
+        version: '3.1.1',
         namespace: ARGOCD_NAMESPACE,
         values: {
-          "server.service.type": "LoadBalancer"
+          configs: {
+            secret: {
+              argocdServerAdminPassword: props.argoCDAdminPassword
+            }
+          },
+          server: {
+            service: {
+              type: "LoadBalancer"
+            }
+          },
         }
       });
 

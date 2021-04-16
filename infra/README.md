@@ -16,8 +16,9 @@ will also need:
 - A personal access token for the [Prow bot account](https://github.com/kubernetes/test-infra/blob/master/prow/getting_started_deploy.md#github-bot-account)
 - An HMAC token used to validate Github webhooks
   - This can be generated using `openssl rand -hex 20`
+- A BCrypt encrypted password for the Argo `admin` account
 
 Use the following command to deploy the stack with the included requirements:
-```
-cdk deploy -c bot_pat=<bot personal access token> -c webhook_hmac=<webhook HMAC> 
+```bash
+cdk deploy -c bot_pat='<bot personal access token>' -c webhook_hmac='<webhook HMAC>' -c argo_password='<bcrypt encrypted password>'
 ```
